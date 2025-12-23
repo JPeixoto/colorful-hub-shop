@@ -11,8 +11,7 @@ export const books: Book[] = [
     pageCount: 64,
     features: ['50+ illustrations', 'Thick paper', 'Single-sided pages'],
     marketplaceLinks: [
-      { marketplace: 'amazon', label: 'Amazon US', url: '#', region: 'US' },
-      { marketplace: 'amazon-uk', label: 'Amazon UK', url: '#', region: 'UK' },
+      { marketplace: 'amazon', label: 'Get Book', url: 'https://app.ekey.bh/mobileLogin', region: 'US' },
     ],
     badge: 'Bestseller',
     accentColor: 'lavender',
@@ -27,8 +26,7 @@ export const books: Book[] = [
     pageCount: 48,
     features: ['40+ illustrations', 'Easy outlines', 'Fun facts included'],
     marketplaceLinks: [
-      { marketplace: 'amazon', label: 'Amazon US', url: '#', region: 'US' },
-      { marketplace: 'amazon-uk', label: 'Amazon UK', url: '#', region: 'UK' },
+      { marketplace: 'amazon', label: 'Get Book', url: 'https://app.ekey.bh/mobileLogin', region: 'US' },
     ],
     accentColor: 'sky',
   },
@@ -42,7 +40,7 @@ export const books: Book[] = [
     pageCount: 56,
     features: ['45+ dinosaurs', 'Dino facts', 'Activity pages'],
     marketplaceLinks: [
-      { marketplace: 'amazon', label: 'Amazon US', url: '#', region: 'US' },
+      { marketplace: 'amazon', label: 'Get Book', url: 'https://app.ekey.bh/mobileLogin', region: 'US' },
     ],
     badge: 'New',
     accentColor: 'mint',
@@ -57,8 +55,7 @@ export const books: Book[] = [
     pageCount: 52,
     features: ['48+ illustrations', 'Glitter cover', 'Bonus stickers'],
     marketplaceLinks: [
-      { marketplace: 'amazon', label: 'Amazon US', url: '#', region: 'US' },
-      { marketplace: 'etsy', label: 'Etsy', url: '#' },
+      { marketplace: 'amazon', label: 'Get Book', url: 'https://app.ekey.bh/mobileLogin', region: 'US' },
     ],
     accentColor: 'blush',
   },
