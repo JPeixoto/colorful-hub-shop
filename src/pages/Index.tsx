@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { SocialHeader } from '@/components/SocialHeader';
 import { Hero } from '@/components/Hero';
 import { BookGrid } from '@/components/BookGrid';
 import { Footer } from '@/components/Footer';
@@ -39,6 +40,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SocialHeader />
       <main>
         <Hero />
         <BookGrid />
