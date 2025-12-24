@@ -23,25 +23,25 @@ const socialLinks = [
     icon: Instagram, 
     href: brandInfo.socialLinks.instagram, 
     label: 'Instagram',
-    color: 'hover:bg-pink-500 hover:text-white hover:border-pink-500'
+    hoverBg: 'hover:bg-pink-500'
   },
   { 
     icon: Facebook, 
     href: brandInfo.socialLinks.facebook, 
     label: 'Facebook',
-    color: 'hover:bg-blue-600 hover:text-white hover:border-blue-600'
+    hoverBg: 'hover:bg-blue-600'
   },
   { 
     icon: PinterestIcon, 
     href: brandInfo.socialLinks.pinterest, 
     label: 'Pinterest',
-    color: 'hover:bg-red-600 hover:text-white hover:border-red-600'
+    hoverBg: 'hover:bg-red-600'
   },
   { 
     icon: TikTokIcon, 
     href: brandInfo.socialLinks.tiktok, 
     label: 'TikTok',
-    color: 'hover:bg-foreground hover:text-background hover:border-foreground'
+    hoverBg: 'hover:bg-zinc-800'
   },
 ];
 
@@ -50,10 +50,10 @@ export function SocialHeader() {
     <motion.header 
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border"
+      className="sticky top-0 z-50 bg-gradient-to-r from-primary via-primary to-[hsl(30_90%_55%)] shadow-header"
     >
-      <div className="container py-4">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="container py-3">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           {/* Brand */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -61,36 +61,38 @@ export function SocialHeader() {
             transition={{ delay: 0.1 }}
             className="flex items-center gap-2"
           >
-            <span className="text-2xl">🎨</span>
-            <span className="font-bold text-lg text-foreground">{brandInfo.name}</span>
+            <span className="text-2xl drop-shadow-md">🎨</span>
+            <span className="font-extrabold text-lg text-primary-foreground drop-shadow-sm">{brandInfo.name}</span>
           </motion.div>
 
           {/* Social Links - Prominent */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="flex items-center gap-2"
+            className="flex items-center gap-3"
           >
-            <span className="text-sm text-muted-foreground mr-2 hidden sm:block">Follow us:</span>
+            <span className="text-sm text-primary-foreground/90 font-medium hidden sm:block">Follow us:</span>
             <div className="flex gap-2">
-              {socialLinks.map(({ icon: Icon, href, label, color }, index) => (
+              {socialLinks.map(({ icon: Icon, href, label, hoverBg }, index) => (
                 <motion.a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Follow us on ${label}`}
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 + index * 0.1 }}
-                  whileHover={{ scale: 1.1 }}
+                  transition={{ delay: 0.3 + index * 0.08, type: 'spring', stiffness: 300 }}
+                  whileHover={{ scale: 1.15, rotate: 5 }}
                   whileTap={{ scale: 0.95 }}
                   className={`
                     flex items-center justify-center w-10 h-10 rounded-full
-                    border-2 border-border bg-card
+                    bg-primary-foreground/20 backdrop-blur-sm
+                    border-2 border-primary-foreground/30
+                    text-primary-foreground
                     transition-all duration-300
-                    ${color}
+                    ${hoverBg} hover:border-transparent hover:shadow-lg
                   `}
                 >
                   <Icon className="w-5 h-5" />
@@ -105,10 +107,11 @@ export function SocialHeader() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            whileHover={{ scale: 1.02 }}
+            className="flex items-center gap-2 text-sm text-primary-foreground/90 hover:text-primary-foreground transition-colors bg-primary-foreground/10 px-3 py-1.5 rounded-full backdrop-blur-sm"
           >
             <Mail className="w-4 h-4" />
-            <span className="hidden md:inline">{brandInfo.email}</span>
+            <span className="hidden md:inline font-medium">{brandInfo.email}</span>
           </motion.a>
         </div>
       </div>
