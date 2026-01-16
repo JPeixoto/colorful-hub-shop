@@ -23,95 +23,85 @@ const socialLinks = [
     icon: Instagram, 
     href: brandInfo.socialLinks.instagram, 
     label: 'Instagram',
-    hoverBg: 'hover:bg-pink-500'
+    color: 'hover:bg-gradient-to-br hover:from-purple-500 hover:via-pink-500 hover:to-orange-400'
   },
   { 
     icon: Facebook, 
     href: brandInfo.socialLinks.facebook, 
     label: 'Facebook',
-    hoverBg: 'hover:bg-blue-600'
+    color: 'hover:bg-blue-600'
   },
   { 
     icon: PinterestIcon, 
     href: brandInfo.socialLinks.pinterest, 
     label: 'Pinterest',
-    hoverBg: 'hover:bg-red-600'
+    color: 'hover:bg-red-600'
   },
   { 
     icon: TikTokIcon, 
     href: brandInfo.socialLinks.tiktok, 
     label: 'TikTok',
-    hoverBg: 'hover:bg-zinc-800'
+    color: 'hover:bg-zinc-900'
   },
 ];
 
 export function SocialHeader() {
   return (
     <motion.header 
-      initial={{ opacity: 0, y: -20 }}
+      initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="sticky top-0 z-50 bg-gradient-to-r from-primary via-primary to-[hsl(30_90%_55%)] shadow-header"
+      className="sticky top-0 z-50 bg-gradient-to-r from-primary to-[hsl(30_90%_55%)] shadow-lg"
     >
-      <div className="container py-3">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="container py-2.5">
+        <div className="flex items-center justify-between gap-4">
           {/* Brand */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="flex items-center gap-2"
           >
-            <span className="text-2xl drop-shadow-md">🎨</span>
-            <span className="font-extrabold text-lg text-primary-foreground drop-shadow-sm">{brandInfo.name}</span>
+            <span className="text-xl">🎨</span>
+            <span className="font-extrabold text-base text-primary-foreground">{brandInfo.name}</span>
           </motion.div>
 
-          {/* Social Links - Prominent */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="flex items-center gap-3"
-          >
-            <span className="text-sm text-primary-foreground/90 font-medium hidden sm:block">Follow us:</span>
-            <div className="flex gap-2">
-              {socialLinks.map(({ icon: Icon, href, label, hoverBg }, index) => (
-                <motion.a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Follow us on ${label}`}
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 + index * 0.08, type: 'spring', stiffness: 300 }}
-                  whileHover={{ scale: 1.15, rotate: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`
-                    flex items-center justify-center w-10 h-10 rounded-full
-                    bg-primary-foreground/20 backdrop-blur-sm
-                    border-2 border-primary-foreground/30
-                    text-primary-foreground
-                    transition-all duration-300
-                    ${hoverBg} hover:border-transparent hover:shadow-lg
-                  `}
-                >
-                  <Icon className="w-5 h-5" />
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
+          {/* Social Links */}
+          <div className="flex items-center gap-2">
+            {socialLinks.map(({ icon: Icon, href, label, color }, index) => (
+              <motion.a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Follow us on ${label}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.15 + index * 0.05 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className={`
+                  flex items-center justify-center w-9 h-9 rounded-full
+                  bg-white/20 backdrop-blur-sm
+                  text-primary-foreground
+                  transition-all duration-200
+                  ${color} hover:text-white hover:shadow-md
+                `}
+              >
+                <Icon className="w-4 h-4" />
+              </motion.a>
+            ))}
+          </div>
 
-          {/* Email */}
+          {/* Email - compact on mobile */}
           <motion.a
             href={`mailto:${brandInfo.email}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            whileHover={{ scale: 1.02 }}
-            className="flex items-center gap-2 text-sm text-primary-foreground/90 hover:text-primary-foreground transition-colors bg-primary-foreground/10 px-3 py-1.5 rounded-full backdrop-blur-sm"
+            transition={{ delay: 0.4 }}
+            className="hidden sm:flex items-center gap-1.5 text-sm text-primary-foreground/90 hover:text-primary-foreground transition-colors"
           >
             <Mail className="w-4 h-4" />
-            <span className="hidden md:inline font-medium">{brandInfo.email}</span>
+            <span className="font-medium">{brandInfo.email}</span>
           </motion.a>
         </div>
       </div>
