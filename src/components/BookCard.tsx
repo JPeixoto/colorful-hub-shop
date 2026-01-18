@@ -175,13 +175,13 @@ export function BookCard({ book, index }: BookCardProps) {
         </div>
 
         {/* Content */}
-        <div className="flex flex-1 flex-col space-y-1.5">
-          <div className="min-h-[4.5rem]">
+        <div className="flex flex-1 flex-col space-y-1 sm:space-y-1.5">
+          <div className="min-h-[4rem] sm:min-h-[4.5rem]">
             <h3 className="text-lg font-bold text-foreground leading-snug line-clamp-2">
               {book.title}
             </h3>
             {book.subtitle && (
-              <p className="text-sm text-muted-foreground font-medium line-clamp-1">
+              <p className="text-sm text-muted-foreground font-semibold sm:font-medium line-clamp-1">
                 {book.subtitle}
               </p>
             )}
@@ -191,7 +191,7 @@ export function BookCard({ book, index }: BookCardProps) {
             id={descriptionId}
             ref={descriptionRef}
             className={cn(
-              "min-h-[6.25rem] text-sm text-muted-foreground leading-relaxed",
+              "min-h-[5.5rem] sm:min-h-[6.25rem] text-base sm:text-sm text-muted-foreground leading-relaxed",
               isExpanded ? "line-clamp-none" : "line-clamp-5"
             )}
           >
