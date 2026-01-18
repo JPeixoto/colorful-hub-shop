@@ -19,10 +19,9 @@ export function BookGrid() {
     <section className="py-8 sm:py-12 bg-[image:var(--gradient-section)]">
       <div className="container">
         <motion.div
-          layout
           initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
           className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4"
         >
           <div className="text-left">
@@ -63,19 +62,15 @@ export function BookGrid() {
           </div>
         </motion.div>
 
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
-        >
-          <AnimatePresence mode="popLayout">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <AnimatePresence mode="wait">
             {filteredBooks.map((book, index) => (
               <motion.div
                 key={book.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
               >
                 {/* Reset index prop to avoidance staggered animation delay interfering with filtering animations if needed, 
                     or keep it for initial load. Keeping it for now. */}
@@ -83,7 +78,7 @@ export function BookGrid() {
               </motion.div>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
         {filteredBooks.length === 0 && (
           <motion.div

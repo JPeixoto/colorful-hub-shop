@@ -54,10 +54,9 @@ export function BookCard({ book, index }: BookCardProps) {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.4, delay: index * 0.08 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.4) }}
       className={cn(
         "group relative bg-card rounded-2xl shadow-card overflow-hidden",
         "border-[3px] border-border/60 hover:shadow-hover transition-all duration-300",
@@ -78,7 +77,8 @@ export function BookCard({ book, index }: BookCardProps) {
                         src={img}
                         alt={`${book.title} view ${idx + 1}`}
                         className="w-full h-full object-cover transition-transform duration-500"
-                        loading="lazy"
+                        loading={index < 4 ? "eager" : "lazy"}
+                        decoding="async"
                       />
                     </div>
                   </CarouselItem>
@@ -110,7 +110,8 @@ export function BookCard({ book, index }: BookCardProps) {
               src={book.coverImage}
               alt={`${book.title} coloring book cover`}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
+              loading={index < 4 ? "eager" : "lazy"}
+              decoding="async"
             />
           )}
 
