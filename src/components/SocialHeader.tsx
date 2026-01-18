@@ -78,6 +78,24 @@ export function SocialHeader() {
                 <Icon className="w-4 h-4" />
               </motion.a>
             ))}
+            <motion.a
+              href={`mailto:${brandInfo.email}`}
+              aria-label="Email us"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.15 + socialLinks.length * 0.05 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className={`
+                sm:hidden flex items-center justify-center w-9 h-9 rounded-full
+                bg-white/20 backdrop-blur-sm
+                text-primary-foreground
+                transition-all duration-200
+                hover:bg-white/30 hover:text-white hover:shadow-md
+              `}
+            >
+              <Mail className="w-4 h-4" />
+            </motion.a>
           </div>
 
           {/* Email - compact on mobile */}

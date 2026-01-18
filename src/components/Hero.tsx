@@ -73,7 +73,7 @@ export function Hero() {
             >
               Spark Creativity with <br className="hidden lg:block" />
               <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">
-                Delightful Coloring Books
+                Coloring Fun Books
               </span>
             </motion.h1>
 
