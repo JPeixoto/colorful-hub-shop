@@ -4,6 +4,7 @@ export const books: Book[] = [
   // English Editions (identified by 'en' in filename)
   {
     id: 'letters-en',
+    amazonId: 'B0G4G4PXC9',
     title: 'Letters',
     subtitle: 'Learn the Alphabet',
     description: 'A fun way to learn the alphabet with creative illustrations for every letter.',
@@ -20,6 +21,7 @@ export const books: Book[] = [
   },
   {
     id: 'numbers-en',
+    amazonId: 'B0G8D96YJT',
     title: 'Numbers',
     subtitle: 'Learn to Count',
     description: 'Discover the world of numbers with easy and educational coloring pages.',
@@ -36,6 +38,7 @@ export const books: Book[] = [
   },
   {
     id: 'lisbon-en',
+    amazonId: 'B0G2JD35YC',
     title: 'Lisbon',
     subtitle: 'City of Seven Hills',
     description: 'Travel through the charming streets of Lisbon and color its most iconic monuments.',
@@ -52,6 +55,7 @@ export const books: Book[] = [
   },
   {
     id: 'madrid-en',
+    amazonId: 'B0GD6BSVNC',
     title: 'Madrid',
     subtitle: 'Heart of Spain',
     description: 'Explore the vibrant city of Madrid through detailed and fun illustrations.',
@@ -68,6 +72,7 @@ export const books: Book[] = [
   },
   {
     id: 'london-en',
+    amazonId: 'B0G1LMLMQF',
     title: 'London',
     subtitle: 'The Big City',
     description: 'From Big Ben to red buses, have fun coloring the icons of London.',
@@ -84,6 +89,7 @@ export const books: Book[] = [
   },
   {
     id: 'paris-en',
+    amazonId: 'B0FXNZZDWF',
     title: 'Paris',
     subtitle: 'City of Light',
     description: 'A romantic and artistic stroll through the streets of Paris, ready to be colored.',
@@ -100,6 +106,7 @@ export const books: Book[] = [
   },
   {
     id: 'rome-en',
+     amazonId: 'B0FYW1T6CV',
     title: 'Rome',
     subtitle: 'The Eternal City',
     description: 'Discover the history and beauty of Rome by coloring the Colosseum and more.',
@@ -118,6 +125,7 @@ export const books: Book[] = [
   // Portuguese Editions (identified by 'pt' in filename)
   {
     id: 'carnaval-pt',
+     amazonId: 'B0FYW1T6CV',
     title: 'Carnaval',
     subtitle: 'Edição Portuguesa',
     description: 'Celebre a alegria e as cores do Carnaval com este livro de colorir festivo.',
@@ -134,6 +142,7 @@ export const books: Book[] = [
   },
   {
     id: 'letters-pt',
+     amazonId: 'B0G8DLFTCF',
     title: 'Letras',
     subtitle: 'Aprenda o Alfabeto',
     description: 'Uma maneira divertida de aprender o alfabeto com ilustrações criativas para cada letra.',
@@ -150,6 +159,7 @@ export const books: Book[] = [
   },
   {
     id: 'numbers-pt',
+     amazonId: 'B0G8LQ6JRX',
     title: 'Números',
     subtitle: 'Aprenda a Contar',
     description: 'Descubra o mundo dos números com desenhos fáceis e educativos para colorir.',
@@ -166,6 +176,7 @@ export const books: Book[] = [
   },
   {
     id: 'lisbon-pt',
+     amazonId: 'B0G9LMZ56B',
     title: 'Lisboa',
     subtitle: 'Cidade das Sete Colinas',
     description: 'Viaje pelas ruas encantadoras de Lisboa e colora seus monumentos mais icônicos.',
@@ -182,6 +193,7 @@ export const books: Book[] = [
   },
   {
     id: 'madrid-pt',
+     amazonId: 'B0GD5WS4T9',
     title: 'Madrid',
     subtitle: 'Coração de Espanha',
     description: 'Explore a vibrante cidade de Madrid através de ilustrações detalhadas e divertidas.',
@@ -198,6 +210,7 @@ export const books: Book[] = [
   },
   {
     id: 'london-pt',
+     amazonId: 'B0G931DNVM',
     title: 'Londres',
     subtitle: 'A Grande Cidade',
     description: 'Do Big Ben aos ônibus vermelhos, divirta-se colorindo os ícones de Londres.',
@@ -214,6 +227,7 @@ export const books: Book[] = [
   },
   {
     id: 'paris-pt',
+     amazonId: 'B0FXNZZDWF',
     title: 'Paris',
     subtitle: 'Cidade Luz',
     description: 'Um passeio romântico e artístico pelas ruas de Paris, pronto para ganhar cor.',
@@ -230,6 +244,7 @@ export const books: Book[] = [
   },
   {
     id: 'rome-pt',
+     amazonId: 'B0FYW1T6CV',
     title: 'Roma',
     subtitle: 'Cidade Eterna',
     description: 'Descubra a história e a beleza de Roma colorindo o Coliseu e muito mais.',

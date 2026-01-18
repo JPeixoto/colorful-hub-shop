@@ -7,6 +7,7 @@ export interface MarketplaceLink {
 
 export interface Book {
   id: string;
+  amazonId: string;
   title: string;
   subtitle?: string;
   description: string;

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -9,31 +8,27 @@ import {
 import { ExternalLink } from 'lucide-react';
 import { useCountry } from '@/hooks/use-country';
 import { COUNTRIES, CountryCode, Country } from '@/data/countries';
-import { getBookLink } from '@/data/book-links';
 import { cn } from '@/lib/utils';
 
 interface SmartBookButtonProps {
-    bookId: string;
+    amazonId: string;
     className?: string;
     variant?: 'default' | 'outline' | 'secondary' | 'ghost' | 'link';
     size?: 'default' | 'sm' | 'lg' | 'icon';
 }
 
 export function SmartBookButton({
-    bookId,
+    amazonId,
     className,
     variant = 'default',
     size = 'default',
 }: SmartBookButtonProps) {
     const { countryCode, setCountryCode } = useCountry();
-    const [currentLink, setCurrentLink] = useState<string>('#');
+    const country = COUNTRIES[countryCode] ?? COUNTRIES.US;
+    const sanitizedId = amazonId?.trim();
+    const currentLink = sanitizedId ? `https://${country.marketplace}/dp/${sanitizedId}` : '#';
 
-    // Update link when country or bookId changes
-    useEffect(() => {
-        setCurrentLink(getBookLink(bookId, countryCode));
-    }, [bookId, countryCode]);
-
-    const currentCountry = COUNTRIES[countryCode] || COUNTRIES['US'];
+    const currentCountry = country;
 
     const handleCountrySelect = (code: CountryCode) => {
         setCountryCode(code);

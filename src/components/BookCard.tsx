@@ -191,7 +191,7 @@ export function BookCard({ book, index }: BookCardProps) {
           {/* CTA */}
           <div className="pt-2">
             <SmartBookButton
-              bookId={book.id}
+              amazonId={book.amazonId}
               className="w-full"
               variant="default"
             />

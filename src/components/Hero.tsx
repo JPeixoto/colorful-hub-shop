@@ -1,6 +1,24 @@
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { brandInfo } from '@/data/books';
+import { COUNTRIES, type CountryCode } from '@/data/countries';
+
+const AMAZON_STORE_CODES: CountryCode[] = [
+  'US',
+  'UK',
+  'DE',
+  'FR',
+  'ES',
+  'IT',
+  'NL',
+  'PL',
+  'SE',
+  'BE',
+  'IE',
+  'JP',
+  'CA',
+  'AU',
+];
 
 export function Hero() {
   return (
@@ -75,9 +93,23 @@ export function Hero() {
               className="flex flex-wrap gap-4"
             >
               {/* Could add a primary CTA here if needed, but currently mostly informational */}
-              <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base font-medium text-muted-foreground">
                 <span className="flex h-2 w-2 rounded-full bg-green-500" />
-                Available Worldwide
+                <span>Available on Amazon stores:</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  {AMAZON_STORE_CODES.map((code) => {
+                    const country = COUNTRIES[code];
+                    return (
+                      <img
+                        key={code}
+                        src={country.flagUrl}
+                        alt={`${country.name} flag`}
+                        title={country.name}
+                        className="h-5 w-7 rounded-sm shadow-sm object-cover"
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </motion.div>
           </motion.div>

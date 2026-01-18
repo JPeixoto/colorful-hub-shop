@@ -23,7 +23,7 @@ export function CountryProvider({ children }: { children: ReactNode }) {
                     throw new Error('Failed to fetch location');
                 }
                 const data = await response.json();
-                const mappedInfo = getMappedCountry(data.country_code);
+                const mappedInfo = data?.country_code ? getMappedCountry(data.country_code) : 'US';
                 setCountryCode(mappedInfo);
                 if (import.meta.env.DEV) {
                     console.log(`Detected country: ${data.country_code} -> Mapped to: ${mappedInfo}`);
