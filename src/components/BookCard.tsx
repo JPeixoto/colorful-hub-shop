@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BookOpen, Star } from 'lucide-react';
 import { Book } from '@/types/book';
-import { Button } from '@/components/ui/button';
 import { SmartBookButton } from '@/components/SmartBookButton';
 import { cn } from '@/lib/utils';
 import {
@@ -34,6 +33,32 @@ const accentBadges = {
   sunshine: 'bg-sunshine text-foreground',
   blush: 'bg-blush text-foreground',
 };
+
+interface BookCardImageProps {
+  src: string;
+  alt: string;
+  eager?: boolean;
+  className?: string;
+}
+
+function BookCardImage({ src, alt, eager = false, className }: BookCardImageProps) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      onLoad={() => setLoaded(true)}
+      className={cn(
+        "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
+        loaded ? "opacity-100" : "opacity-0",
+        className
+      )}
+    />
+  );
+}
 
 export function BookCard({ book, index }: BookCardProps) {
   const images = book.images && book.images.length > 0 ? book.images : [book.coverImage];
@@ -69,16 +94,14 @@ export function BookCard({ book, index }: BookCardProps) {
         <div className="relative mb-2.5 aspect-[3/4] rounded-xl overflow-hidden bg-muted">
           {images.length > 1 ? (
             <Carousel className="w-full h-full" setApi={setApi}>
-              <CarouselContent>
+              <CarouselContent className="h-full">
                 {images.map((img, idx) => (
-                  <CarouselItem key={idx}>
-                    <div className="aspect-[3/4] relative">
-                      <img
+                  <CarouselItem key={img} className="h-full">
+                    <div className="relative h-full w-full">
+                      <BookCardImage
                         src={img}
                         alt={`${book.title} view ${idx + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-500"
-                        loading={index < 4 ? "eager" : "lazy"}
-                        decoding="async"
+                        eager={idx === 0 && index < 4}
                       />
                     </div>
                   </CarouselItem>
@@ -106,12 +129,11 @@ export function BookCard({ book, index }: BookCardProps) {
               </div>
             </Carousel>
           ) : (
-            <img
+            <BookCardImage
               src={book.coverImage}
               alt={`${book.title} coloring book cover`}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading={index < 4 ? "eager" : "lazy"}
-              decoding="async"
+              eager={index < 4}
+              className="transition-transform duration-500 group-hover:scale-105"
             />
           )}
 
