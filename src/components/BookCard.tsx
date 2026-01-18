@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useId, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Star } from 'lucide-react';
 import { Book } from '@/types/book';
 import { SmartBookButton } from '@/components/SmartBookButton';
 import { cn } from '@/lib/utils';
@@ -64,6 +63,10 @@ export function BookCard({ book, index }: BookCardProps) {
   const images = book.images && book.images.length > 0 ? book.images : [book.coverImage];
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const descriptionId = useId();
+  const descriptionRef = useRef<HTMLParagraphElement | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
 
   useEffect(() => {
     if (!api) {
@@ -77,19 +80,46 @@ export function BookCard({ book, index }: BookCardProps) {
     });
   }, [api]);
 
+  useEffect(() => {
+    if (isExpanded) {
+      return;
+    }
+
+    const element = descriptionRef.current;
+    if (!element) {
+      return;
+    }
+
+    const checkTruncation = () => {
+      const truncated = element.scrollHeight > element.clientHeight + 1;
+      setIsTruncated(truncated);
+    };
+
+    checkTruncation();
+
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(checkTruncation);
+      observer.observe(element);
+      return () => observer.disconnect();
+    }
+
+    window.addEventListener("resize", checkTruncation);
+    return () => window.removeEventListener("resize", checkTruncation);
+  }, [book.description, isExpanded]);
+
   return (
     <motion.article
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.4) }}
       className={cn(
-        "group relative bg-card rounded-2xl shadow-card overflow-hidden",
+        "group relative h-full bg-card rounded-2xl shadow-card overflow-hidden",
         "border-[3px] border-border/60 hover:shadow-hover transition-all duration-300",
         "border-l-4",
         accentBorders[book.accentColor]
       )}
     >
-      <div className="p-4 sm:p-5">
+      <div className="flex h-full flex-col p-4 sm:p-5">
         {/* Cover Image / Slider */}
         <div className="relative mb-2.5 aspect-[3/4] rounded-xl overflow-hidden bg-muted">
           {images.length > 1 ? (
@@ -145,33 +175,43 @@ export function BookCard({ book, index }: BookCardProps) {
         </div>
 
         {/* Content */}
-        <div className="space-y-3">
-          <div>
-            <h3 className="text-lg font-bold text-foreground leading-snug">
+        <div className="flex flex-1 flex-col space-y-1.5">
+          <div className="min-h-[4.5rem]">
+            <h3 className="text-lg font-bold text-foreground leading-snug line-clamp-2">
               {book.title}
             </h3>
             {book.subtitle && (
-              <p className="text-sm text-muted-foreground font-medium">
+              <p className="text-sm text-muted-foreground font-medium line-clamp-1">
                 {book.subtitle}
               </p>
             )}
           </div>
 
-          <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+          <p
+            id={descriptionId}
+            ref={descriptionRef}
+            className={cn(
+              "min-h-[6.25rem] text-sm text-muted-foreground leading-relaxed",
+              isExpanded ? "line-clamp-none" : "line-clamp-5"
+            )}
+          >
             {book.description}
           </p>
-
-          {/* Meta */}
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1">
-              <BookOpen className="w-3.5 h-3.5" />
-              {book.pageCount} pages
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <Star className="w-3.5 h-3.5" />
-              Ages {book.ageRange}
-            </span>
-          </div>
+          <button
+            type="button"
+            onClick={() => setIsExpanded((prev) => !prev)}
+            aria-expanded={isExpanded}
+            aria-controls={descriptionId}
+            aria-hidden={!isTruncated}
+            disabled={!isTruncated}
+            tabIndex={isTruncated ? 0 : -1}
+            className={cn(
+              "self-start text-xs font-semibold text-primary transition-colors",
+              isTruncated ? "hover:text-primary/90" : "invisible"
+            )}
+          >
+            {isExpanded ? "Show less" : "Read more"}
+          </button>
 
           {/* Features */}
           <div className="flex flex-wrap gap-1.5">
@@ -189,7 +229,7 @@ export function BookCard({ book, index }: BookCardProps) {
           </div>
 
           {/* CTA */}
-          <div className="pt-2">
+          <div className="pt-2 mt-auto">
             <SmartBookButton
               amazonId={book.amazonId}
               className="w-full"
