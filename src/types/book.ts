@@ -11,6 +11,8 @@ export interface Book {
   subtitle?: string;
   description: string;
   coverImage: string;
+  images?: string[]; // Optional for now to maintain compatibility, but we will populate it
+  language?: ('en' | 'pt')[];
   ageRange: string;
   pageCount: number;
   features: string[];

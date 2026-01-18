@@ -1,8 +1,16 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, BookOpen, Star } from 'lucide-react';
+import { BookOpen, Star } from 'lucide-react';
 import { Book } from '@/types/book';
 import { Button } from '@/components/ui/button';
+import { SmartBookButton } from '@/components/SmartBookButton';
 import { cn } from '@/lib/utils';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 interface BookCardProps {
   book: Book;
@@ -28,6 +36,22 @@ const accentBadges = {
 };
 
 export function BookCard({ book, index }: BookCardProps) {
+  const images = book.images && book.images.length > 0 ? book.images : [book.coverImage];
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCurrent(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -36,22 +60,62 @@ export function BookCard({ book, index }: BookCardProps) {
       transition={{ duration: 0.4, delay: index * 0.08 }}
       className={cn(
         "group relative bg-card rounded-2xl shadow-card overflow-hidden",
-        "border border-border/60 hover:shadow-hover transition-all duration-300",
+        "border-[3px] border-border/60 hover:shadow-hover transition-all duration-300",
         "border-l-4",
         accentBorders[book.accentColor]
       )}
     >
       <div className="p-4 sm:p-5">
-        {/* Cover Image */}
-        <div className="relative mb-4 aspect-[3/4] rounded-xl overflow-hidden bg-muted">
-          <img
-            src={book.coverImage}
-            alt={`${book.title} coloring book cover`}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-          />
+        {/* Cover Image / Slider */}
+        <div className="relative mb-2.5 aspect-[3/4] rounded-xl overflow-hidden bg-muted">
+          {images.length > 1 ? (
+            <Carousel className="w-full h-full" setApi={setApi}>
+              <CarouselContent>
+                {images.map((img, idx) => (
+                  <CarouselItem key={idx}>
+                    <div className="aspect-[3/4] relative">
+                      <img
+                        src={img}
+                        alt={`${book.title} view ${idx + 1}`}
+                        className="w-full h-full object-cover transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+
+              {/* Dot Indicators */}
+              <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 z-10">
+                {images.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      api?.scrollTo(idx);
+                    }}
+                    className={cn(
+                      "w-1.5 h-1.5 rounded-full transition-all duration-300 shadow-sm focus:outline-none",
+                      current === idx
+                        ? "bg-white w-3"
+                        : "bg-white/60 hover:bg-white/90"
+                    )}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            </Carousel>
+          ) : (
+            <img
+              src={book.coverImage}
+              alt={`${book.title} coloring book cover`}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+          )}
+
           {book.badge && (
-            <span className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs font-bold px-2.5 py-1 rounded-full shadow-md">
+            <span className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs font-bold px-2.5 py-1 rounded-full shadow-md z-10">
               {book.badge}
             </span>
           )}
@@ -103,24 +167,11 @@ export function BookCard({ book, index }: BookCardProps) {
 
           {/* CTA */}
           <div className="pt-2">
-            {book.marketplaceLinks.map((link) => (
-              <Button
-                key={link.marketplace}
-                size="sm"
-                asChild
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-sm"
-              >
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Buy ${book.title} on ${link.label}`}
-                >
-                  {link.label}
-                  <ExternalLink className="w-3.5 h-3.5 ml-1.5" />
-                </a>
-              </Button>
-            ))}
+            <SmartBookButton
+              bookId={book.id}
+              className="w-full"
+              variant="default"
+            />
           </div>
         </div>
       </div>
