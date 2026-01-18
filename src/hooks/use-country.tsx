@@ -25,9 +25,13 @@ export function CountryProvider({ children }: { children: ReactNode }) {
                 const data = await response.json();
                 const mappedInfo = getMappedCountry(data.country_code);
                 setCountryCode(mappedInfo);
-                console.log(`Detected country: ${data.country_code} -> Mapped to: ${mappedInfo}`);
+                if (import.meta.env.DEV) {
+                    console.log(`Detected country: ${data.country_code} -> Mapped to: ${mappedInfo}`);
+                }
             } catch (err) {
-                console.error('Geolocation error:', err);
+                if (import.meta.env.DEV) {
+                    console.error('Geolocation error:', err);
+                }
                 setError('Could not determine location');
             } finally {
                 setIsLoading(false);

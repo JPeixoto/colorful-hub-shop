@@ -6,18 +6,19 @@ import { Footer } from '@/components/Footer';
 import { brandInfo, books } from '@/data/books';
 
 const Index = () => {
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": brandInfo.name,
     "description": brandInfo.description,
-    "url": window.location.origin,
+    "url": origin,
     "sameAs": Object.values(brandInfo.socialLinks),
     "offers": books.map(book => ({
       "@type": "Product",
       "name": book.title,
       "description": book.description,
-      "image": `${window.location.origin}${book.coverImage}`,
+      "image": `${origin}${book.coverImage}`,
       "category": "Children's Coloring Book",
     })),
   };
