@@ -3,6 +3,57 @@ import { Book } from '@/types/book';
 export const books: Book[] = [
   // English Editions (identified by 'en' in filename)
   {
+    id: 'carnival-en',
+    amazonId: 'B0G63Q7HVG',
+    title: 'Carnival around the world!',
+    subtitle: 'Mask up and have fun',
+    description: 'Luna and her friends help children explore exciting carnivals around the world through fun coloring and joyful adventures.',
+    coverImage: '/books/amazon_extracted/b-carnaval-en-front.jpg',
+    images: ['/books/amazon_extracted/b-carnaval-en-front.jpg', '/books/amazon_extracted/b-carnaval-en-back.jpg'],
+    ageRange: '3-6 years',
+    pageCount: 52,
+    features: ['Holidays', '🎨 50 pages'],
+    marketplaceLinks: [
+      { marketplace: 'amazon', label: 'Get Book', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'US' },
+    ],
+    accentColor: 'sunshine',
+    language: ['en'],
+  },
+  {
+    id: 'food-en',
+    amazonId: 'B0GJ4PCDWY',
+    title: 'Food and drinks with Luna and Lucas',
+    subtitle: 'Paint food and drinks',
+    description: 'Luna, the curious puppy, helps children learn about food and drinks in a fun way by coloring and exploring everyday meals.',
+    coverImage: '/books/amazon_extracted/b-food-en-front.jpg',
+    images: ['/books/amazon_extracted/b-food-en-front.jpg', '/books/amazon_extracted/b-food-en-back.jpg'],
+    ageRange: '3-6 years',
+    pageCount: 52,
+    features: ['Educational', '🎨 50 pages'],
+    marketplaceLinks: [
+      { marketplace: 'amazon', label: 'Get Book', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'US' },
+    ],
+    accentColor: 'lavender',
+    language: ['en'],
+  },
+  {
+    id: 'halloween-en',
+    amazonId: 'B0GHRL8G13',
+    title: "Halloween - The cute coloring book for kids",
+    subtitle: 'Happy Halloween with Luna',
+    description: 'Luna, the lovely puppy, helps children enjoy a joyful Halloween with friends through fun coloring and imaginative adventures.”',
+    coverImage: '/books/amazon_extracted/b-halloween-en-front.jpg',
+    images: ['/books/amazon_extracted/b-halloween-en-front.jpg', '/books/amazon_extracted/b-halloween-en-back.jpg'],
+    ageRange: '3-6 years',
+    pageCount: 52,
+    features: ['Holidays', '🎨 50 pages'],
+    marketplaceLinks: [
+      { marketplace: 'amazon', label: 'Get Book', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'US' },
+    ],
+    accentColor: 'sky',
+    language: ['en'],
+  },
+  {
     id: 'letters-en',
     amazonId: 'B0G4G4PXC9',
     title: 'ABC with Luna',
@@ -16,7 +67,7 @@ export const books: Book[] = [
     marketplaceLinks: [
       { marketplace: 'amazon', label: 'Get Book', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'US' },
     ],
-    accentColor: 'sky',
+    accentColor: 'mint',
     language: ['en'],
   },
   {
@@ -47,6 +98,23 @@ export const books: Book[] = [
     ageRange: '6+ years',
     pageCount: 48,
     features: ['Travel', '🎨 50 pages'],
+    marketplaceLinks: [
+      { marketplace: 'amazon', label: 'Get Book', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'US' },
+    ],
+    accentColor: 'blush',
+    language: ['en'],
+  },
+    {
+    id: 'easter-en',
+    amazonId: 'B0GHHZPVW4',
+    title: "Luna's Discoveries: Easter - The cute coloring book for kids",
+    subtitle: "Let's paint the joy of Easter",
+    description: 'Luna, the lovely puppy, helps children enjoy a joyful Easter with friends through fun coloring and imaginative adventures.',
+    coverImage: '/books/amazon_extracted/b-easter-en-front.jpg',
+    images: ['/books/amazon_extracted/b-easter-en-front.jpg', '/books/amazon_extracted/b-easter-en-back.jpg'],
+    ageRange: '6+ years',
+    pageCount: 48,
+    features: ['Holidays', '🎨 50 pages'],
     marketplaceLinks: [
       { marketplace: 'amazon', label: 'Get Book', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'US' },
     ],
@@ -121,8 +189,27 @@ export const books: Book[] = [
     accentColor: 'sky',
     language: ['en'],
   },
+  
+  
 
   // Portuguese Editions (identified by 'pt' in filename)
+  {
+    id: 'food-pt',
+    amazonId: 'B0GJ4MKD5H',
+    title: 'Comida & Bebida - O livro criativo de colorir para crianças',
+    subtitle: 'Pinte a tua comida',
+    description: 'A Luna, uma cadelinha curiosa, ajuda as crianças a aprender sobre comida e bebidas de forma divertida, colorindo e explorando refeições do dia a dia.',
+    coverImage: '/books/amazon_extracted/b-food-pt-front.jpg',
+    images: ['/books/amazon_extracted/b-food-pt-front.jpg', '/books/amazon_extracted/b-food-pt-back.jpg'],
+    ageRange: '4-8 years',
+    pageCount: 40,
+    features: ['Educativo', '🎨 50 pages'],
+    marketplaceLinks: [
+      { marketplace: 'amazon', label: 'Comprar na Amazon', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'ES' },
+    ],
+    accentColor: 'sunshine',
+    language: ['pt'],
+  },
   {
     id: 'carnaval-pt',
     amazonId: 'B0FYW1T6CV',
@@ -184,13 +271,31 @@ export const books: Book[] = [
     images: ['/books/amazon_extracted/b-lisbon-pt-front.jpg', '/books/amazon_extracted/b-lisbon-pt-back.jpg'],
     ageRange: '6+ years',
     pageCount: 48,
-    features: ['Monumentos', '🎨 50 pages'],
+    features: ['Viagens', '🎨 50 pages'],
     marketplaceLinks: [
       { marketplace: 'amazon', label: 'Comprar na Amazon', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'ES' },
     ],
     accentColor: 'sunshine',
     language: ['pt'],
   },
+  {
+    id: 'easter-pt',
+    amazonId: 'B0GHD2H5WM',
+    title: 'Descobre a Páscoa com a Luna.',
+    subtitle: 'Pinta a Páscoa com a Luna',
+    description: 'A Luna e os seus amigos convidam as crianças a celebrar a Páscoa com diversão, amizade e páginas de colorir cheias de imaginação.',
+    coverImage: '/books/amazon_extracted/b-easter-pt-front.jpg',
+    images: ['/books/amazon_extracted/b-easter-pt-front.jpg', '/books/amazon_extracted/b-easter-pt-back.jpg'],
+    ageRange: '6+ years',
+    pageCount: 48,
+    features: ['Temática Festiva', '🎨 50 pages'],
+    marketplaceLinks: [
+      { marketplace: 'amazon', label: 'Comprar na Amazon', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'ES' },
+    ],
+    accentColor: 'sunshine',
+    language: ['pt'],
+  },
+  
   {
     id: 'madrid-pt',
     amazonId: 'B0GD5WS4T9',
@@ -208,6 +313,23 @@ export const books: Book[] = [
     accentColor: 'blush',
     language: ['pt'],
   },
+    {
+    id: 'halloween-pt',
+    amazonId: 'B0GHRJMQQF',
+    title: 'Halloween - O livro fofinho de colorir para crianças',
+    subtitle: 'Pinta o Halloween com a Luna',
+    description: 'A Luna e os seus amigos convidam as crianças a celebrar o Halloween com diversão, amizade e páginas de colorir cheias de imaginação.',
+    coverImage: '/books/amazon_extracted/b-halloween-pt-front.jpg',
+    images: ['/books/amazon_extracted/b-halloween-pt-front.jpg', '/books/amazon_extracted/b-halloween-pt-back.jpg'],
+    ageRange: '6+ years',
+    pageCount: 48,
+    features: ['Temática Festiva', '🎨 50 pages'],
+    marketplaceLinks: [
+      { marketplace: 'amazon', label: 'Comprar na Amazon', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'ES' },
+    ],
+    accentColor: 'lavender',
+    language: ['pt'],
+  },
   {
     id: 'london-pt',
     amazonId: 'B0G931DNVM',
@@ -222,7 +344,7 @@ export const books: Book[] = [
     marketplaceLinks: [
       { marketplace: 'amazon', label: 'Comprar na Amazon', url: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC', region: 'ES' },
     ],
-    accentColor: 'lavender',
+    accentColor: 'sky',
     language: ['pt'],
   },
   {
