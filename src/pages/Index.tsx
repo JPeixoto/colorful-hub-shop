@@ -19,18 +19,44 @@ const Index = () => {
   }, []);
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": brandInfo.name,
-    "description": brandInfo.description,
-    "url": siteUrl,
-    "sameAs": Object.values(brandInfo.socialLinks),
-    "offers": books.map(book => ({
-      "@type": "Product",
-      "name": book.title,
-      "description": book.description,
-      "image": withSiteUrl(book.coverImage),
-      "category": "Children's Coloring Book",
-    })),
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": brandInfo.name,
+        "description": brandInfo.description,
+        "url": siteUrl,
+        "sameAs": Object.values(brandInfo.socialLinks),
+      },
+      {
+        "@type": "CollectionPage",
+        "name": pageTitle,
+        "description": pageDescription,
+        "url": canonicalUrl,
+        "mainEntity": {
+          "@type": "ItemList",
+          "itemListElement": books.map((book, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+              "@type": "Book",
+              "name": book.title,
+              "description": book.description,
+              "image": withSiteUrl(book.coverImage),
+              "inLanguage": book.language?.length ? book.language : undefined,
+              "numberOfPages": book.pageCount,
+              "audience": {
+                "@type": "PeopleAudience",
+                "suggestedAge": book.ageRange,
+              },
+              "author": {
+                "@type": "Organization",
+                "name": brandInfo.name,
+              },
+            },
+          })),
+        },
+      },
+    ],
   };
 
   return (
