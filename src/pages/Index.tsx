@@ -11,7 +11,10 @@ const Index = () => {
   const [searchParams] = useSearchParams();
   const bookId = searchParams.get('book');
   
-  const siteUrl = (import.meta.env.VITE_SITE_URL || (typeof window !== "undefined" ? window.location.origin : "")).replace(/\/+$/, "");
+  const siteUrl = (
+    import.meta.env.VITE_SITE_URL ||
+    (typeof window !== "undefined" ? window.location.origin : "https://www.coloringfunbooks.store")
+  ).replace(/\/+$/, "");
   const withSiteUrl = (path: string) => (siteUrl ? `${siteUrl}${path}` : path);
   
   // Find the specific book if bookId is provided
@@ -36,6 +39,9 @@ const Index = () => {
   const shareImage = selectedBook
     ? withSiteUrl(selectedBook.coverImage)
     : withSiteUrl("/hero-illustration.png");
+  const shareImageAlt = selectedBook
+    ? `${selectedBook.title} cover`
+    : "Coloring Fun Books - Children's Coloring Books";
 
   useEffect(() => {
     document.dispatchEvent(new Event("prerender-ready"));
@@ -56,6 +62,22 @@ const Index = () => {
       return () => clearTimeout(timer);
     }
   }, [bookId, selectedBook]);
+
+  // Handle hash navigation on page load (e.g., #collection)
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      // Wait for content to render and images to start loading
+      const timer = setTimeout(() => {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, []);
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -108,14 +130,18 @@ const Index = () => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={shareImage} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Coloring Fun Books - Children's Coloring Books" />
+        <meta property="og:image:alt" content={shareImageAlt} />
+        {!selectedBook && (
+          <>
+            <meta property="og:image:width" content="1024" />
+            <meta property="og:image:height" content="1024" />
+          </>
+        )}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={brandInfo.name} />
         <meta name="twitter:description" content={pageDescription} />
         <meta name="twitter:image" content={shareImage} />
-        <meta name="twitter:image:alt" content="Coloring Fun Books - Children's Coloring Books" />
+        <meta name="twitter:image:alt" content={shareImageAlt} />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>

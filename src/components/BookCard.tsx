@@ -139,7 +139,7 @@ export function BookCard({ book, index }: BookCardProps) {
       id={`book-${book.id}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.4) }}
+      transition={{ duration: 0.3 }}
       className={cn(
         "group relative h-full bg-card rounded-2xl shadow-card overflow-hidden",
         "border-[3px] border-border/60 hover:shadow-hover transition-all duration-300",
