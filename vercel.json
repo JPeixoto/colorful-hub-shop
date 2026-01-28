@@ -3,5 +3,17 @@
     "outputDirectory": "dist",
     "devCommand": "npm run dev",
     "installCommand": "npm install",
-    "framework": "vite"
+    "framework": "vite",
+    "rewrites": [
+        {
+            "source": "/",
+            "has": [
+                {
+                    "type": "query",
+                    "key": "book"
+                }
+            ],
+            "destination": "/index.html"
+        }
+    ]
 }

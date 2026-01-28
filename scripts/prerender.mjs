@@ -5,6 +5,11 @@ import PuppeteerRenderer from "@prerenderer/renderer-puppeteer";
 
 const distDir = path.resolve(process.cwd(), "dist");
 
+// Import book data to generate routes for each book
+import { readFile } from "node:fs/promises";
+const booksFile = await readFile(path.resolve(process.cwd(), "src/data/books.ts"), "utf-8");
+const bookIds = [...booksFile.matchAll(/id:\s*'([^']+)'/g)].map(m => m[1]);
+
 const prerenderer = new Prerenderer({
   staticDir: distDir,
   renderer: PuppeteerRenderer,
@@ -27,14 +32,26 @@ const toOutputPath = (route) => {
 
 try {
   await prerenderer.initialize();
-  const renderedRoutes = await prerenderer.renderRoutes(["/"]);
+  
+  // Generate routes for homepage and each book
+  const routes = [
+    "/",
+    ...bookIds.map(id => `/?book=${id}`)
+  ];
+  
+  console.log(`Prerendering ${routes.length} routes...`);
+  const renderedRoutes = await prerenderer.renderRoutes(routes);
+  
   await Promise.all(
     renderedRoutes.map(async (rendered) => {
       const outputPath = rendered.outputPath || toOutputPath(rendered.route || rendered.originalRoute);
       await mkdir(path.dirname(outputPath), { recursive: true });
       await writeFile(outputPath, rendered.html, "utf8");
+      console.log(`✓ Prerendered: ${rendered.route}`);
     })
   );
+  
+  console.log(`✓ Successfully prerendered ${renderedRoutes.length} routes`);
 } finally {
   await prerenderer.destroy();
 }
