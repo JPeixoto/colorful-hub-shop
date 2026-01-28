@@ -41,7 +41,7 @@ export const books: Book[] = [
     amazonId: 'B0GHRL8G13',
     title: "Halloween - The cute coloring book for kids",
     subtitle: 'Happy Halloween with Luna',
-    description: 'Luna, the lovely puppy, helps children enjoy a joyful Halloween with friends through fun coloring and imaginative adventures.”',
+    description: 'Luna, the lovely puppy, helps children enjoy a joyful Halloween with friends through fun coloring and imaginative adventures.',
     coverImage: '/books/amazon_extracted/b-halloween-en-front.jpg',
     images: ['/books/amazon_extracted/b-halloween-en-front.jpg', '/books/amazon_extracted/b-halloween-en-back.jpg'],
     ageRange: '3-6 years',
@@ -387,6 +387,7 @@ export const brandInfo = {
   name: 'Coloring Fun Books',
   tagline: 'Sparking imagination, one page at a time',
   description: 'We create delightful coloring books that inspire creativity and bring joy to children everywhere. Each book is thoughtfully designed with love.',
+  storeUrl: 'https://www.amazon.es/stores/Ines-Marques/author/B0GCP1K2SC',
   socialLinks: {
     instagram: 'https://www.instagram.com/coloringfunbooksbynes?igsh=eXk4cTdwMHpyNHY=',
     facebook: 'https://facebook.com',

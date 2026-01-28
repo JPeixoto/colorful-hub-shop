@@ -1,68 +1,126 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { books } from '@/data/books';
 import { BookCard } from '@/components/BookCard';
-import { Palette, Globe } from 'lucide-react';
+import { Palette } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+// Map Portuguese categories to English for language-agnostic filtering
+const categoryMap: Record<string, string> = {
+  'Educational': 'Educational',
+  'Educativo': 'Educational',
+  'Holidays': 'Holidays',
+  'Temática Festiva': 'Holidays',
+  'Travel': 'Travel',
+  'Viagem': 'Travel',
+  'Viagens': 'Travel',
+};
+
 export function BookGrid() {
-  const [filter, setFilter] = useState<'All' | 'English' | 'Portuguese'>('All');
+  const [languageFilter, setLanguageFilter] = useState<'All' | 'English' | 'Portuguese'>('All');
+  const [categoryFilter, setCategoryFilter] = useState<string>('All');
+
+  // Extract unique categories from books (language-agnostic)
+  const categories = useMemo(() => {
+    const categorySet = new Set<string>();
+    books.forEach(book => {
+      book.features.forEach(feature => {
+        const normalizedCategory = categoryMap[feature];
+        if (normalizedCategory) {
+          categorySet.add(normalizedCategory);
+        }
+      });
+    });
+    return ['All', ...Array.from(categorySet).sort()];
+  }, []);
 
   const filteredBooks = books.filter(book => {
-    if (filter === 'All') return true;
-    if (filter === 'English') return book.language?.includes('en');
-    if (filter === 'Portuguese') return book.language?.includes('pt');
-    return true;
+    // Apply language filter
+    const languageMatch = 
+      languageFilter === 'All' ||
+      (languageFilter === 'English' && book.language?.includes('en')) ||
+      (languageFilter === 'Portuguese' && book.language?.includes('pt'));
+
+    // Apply category filter (language-agnostic)
+    const categoryMatch = 
+      categoryFilter === 'All' ||
+      book.features.some(feature => categoryMap[feature] === categoryFilter);
+
+    return languageMatch && categoryMatch;
   });
 
   return (
-    <section className="py-8 sm:py-12 bg-[image:var(--gradient-section)]">
+    <section id="collection" className="scroll-mt-24 py-8 sm:py-12 bg-[image:var(--gradient-section)]">
       <div className="container">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4"
+          className="text-center mb-8"
         >
-          <div className="text-left">
-            <div className="inline-flex items-center gap-2 text-primary mb-2">
-              <Palette className="w-5 h-5" />
-              <span className="text-sm font-bold uppercase tracking-wide">Our Collection</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-              Coloring Books
-            </h2>
+          <div className="inline-flex items-center gap-2 text-primary mb-3">
+            <Palette className="w-5 h-5" />
+            <span className="text-sm font-bold uppercase tracking-wide">Our Collection</span>
           </div>
-
-          {/* Filter Controls */}
-          <div>
-            <div className="inline-flex p-1 bg-white/50 backdrop-blur-sm rounded-full border border-white/20 shadow-sm">
-              {['All', 'English', 'Portuguese'].map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f as any)}
-                  className={cn(
-                    "px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 relative",
-                    filter === f
-                      ? "text-primary hover:text-primary z-10 font-bold"
-                      : "text-muted-foreground hover:text-foreground hover:bg-white/30"
-                  )}
-                >
-                  {filter === f && (
-                    <motion.div
-                      layoutId="activeFilter"
-                      className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                  {f}
-                </button>
-              ))}
-            </div>
-          </div>
+          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-foreground mb-2">
+            Coloring Books
+          </h2>
+          <p className="text-muted-foreground text-sm">
+            {filteredBooks.length} book{filteredBooks.length !== 1 ? 's' : ''} available
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        {/* Filter Controls - Horizontal Inline */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="mb-10 flex flex-wrap items-center justify-center gap-2 sm:gap-3"
+        >
+          {/* Language Pills */}
+          {['All', 'English', 'Portuguese'].map((f) => (
+            <motion.button
+              key={f}
+              onClick={() => setLanguageFilter(f as any)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={cn(
+                "px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300",
+                "shadow-sm hover:shadow-md",
+                languageFilter === f
+                  ? "bg-gradient-to-r from-primary to-pink-500 text-white shadow-elevated"
+                  : "bg-white/80 backdrop-blur-sm text-muted-foreground hover:text-foreground border border-gray-200"
+              )}
+            >
+              {f}
+            </motion.button>
+          ))}
+          
+          {/* Separator */}
+          <div className="hidden sm:block w-px h-8 bg-gradient-to-b from-transparent via-gray-300 to-transparent mx-1" />
+          
+          {/* Category Pills */}
+          {categories.map((category) => (
+            <motion.button
+              key={category}
+              onClick={() => setCategoryFilter(category)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={cn(
+                "px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300",
+                "shadow-sm hover:shadow-md",
+                categoryFilter === category
+                  ? "bg-gradient-to-r from-mint to-lavender text-white shadow-elevated"
+                  : "bg-white/80 backdrop-blur-sm text-muted-foreground hover:text-foreground border border-gray-200"
+              )}
+            >
+              {category}
+            </motion.button>
+          ))}
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
           <AnimatePresence mode="wait">
             {filteredBooks.map((book, index) => (
               <motion.div

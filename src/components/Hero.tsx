@@ -1,7 +1,8 @@
-import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { Sparkles, ArrowDownRight, ExternalLink } from 'lucide-react';
 import { brandInfo } from '@/data/books';
 import { COUNTRIES, type CountryCode } from '@/data/countries';
+import { Button } from '@/components/ui/button';
 
 const AMAZON_STORE_CODES: CountryCode[] = [
   'US',
@@ -21,23 +22,25 @@ const AMAZON_STORE_CODES: CountryCode[] = [
 ];
 
 export function Hero() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="relative overflow-hidden py-8 sm:py-12 bg-[image:var(--gradient-hero)]">
       {/* Subtle decorative elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div
-          animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          animate={shouldReduceMotion ? undefined : { scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={shouldReduceMotion ? undefined : { duration: 8, repeat: Infinity, ease: 'easeInOut' }}
           className="absolute -top-20 -left-20 w-64 h-64 bg-peach rounded-full blur-3xl opacity-40"
         />
         <motion.div
-          animate={{ scale: [1.1, 1, 1.1], opacity: [0.25, 0.4, 0.25] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+          animate={shouldReduceMotion ? undefined : { scale: [1.1, 1, 1.1], opacity: [0.25, 0.4, 0.25] }}
+          transition={shouldReduceMotion ? undefined : { duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
           className="absolute top-0 right-0 w-96 h-96 bg-lavender rounded-full blur-3xl opacity-30"
         />
         <motion.div
-          animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.35, 0.2] }}
-          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+          animate={shouldReduceMotion ? undefined : { scale: [1, 1.15, 1], opacity: [0.2, 0.35, 0.2] }}
+          transition={shouldReduceMotion ? undefined : { duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
           className="absolute -bottom-10 left-1/3 w-80 h-80 bg-mint rounded-full blur-3xl opacity-30"
         />
       </div>
@@ -69,7 +72,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4 leading-[1.1] tracking-tight"
+              className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground mb-4 leading-[1.1] tracking-tight"
             >
               Spark Creativity with <br className="hidden lg:block" />
               <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">
@@ -90,8 +93,16 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-col gap-4"
             >
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg" variant="cta">
+                  <a href="#collection">
+                    Browse Books
+                    <ArrowDownRight className="h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
               {/* Could add a primary CTA here if needed, but currently mostly informational */}
               <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base font-medium text-muted-foreground">
                 <span className="flex h-2 w-2 rounded-full bg-green-500" />

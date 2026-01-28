@@ -2,6 +2,8 @@
 @import "@fontsource/nunito/600.css";
 @import "@fontsource/nunito/700.css";
 @import "@fontsource/nunito/800.css";
+@import "@fontsource/fredoka/600.css";
+@import "@fontsource/fredoka/700.css";
 
 @tailwind base;
 @tailwind components;
@@ -14,6 +16,7 @@
 @layer base {
   html {
     color-scheme: light;
+    scroll-behavior: smooth;
   }
 
   :root {
@@ -141,6 +144,12 @@
     --sidebar-accent-foreground: 165 40% 25%;
     --sidebar-border: 30 30% 88%;
     --sidebar-ring: 16 85% 60%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 

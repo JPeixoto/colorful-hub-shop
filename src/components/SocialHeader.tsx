@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Instagram, Facebook, Mail } from 'lucide-react';
+import { Instagram, Mail } from 'lucide-react';
 import { brandInfo } from '@/data/books';
 
 function PinterestIcon({ className }: { className?: string }) {
@@ -50,7 +50,7 @@ export function SocialHeader() {
             className="flex items-center gap-2"
           >
             <img src="/icon.jpeg" alt="Coloring Fun Books" className="w-8 h-8 rounded-full object-cover" />
-            <span className="font-extrabold text-base text-primary-foreground">{brandInfo.name}</span>
+            <span className="font-display font-extrabold text-base text-primary-foreground">{brandInfo.name}</span>
           </motion.div>
 
           {/* Social Links */}
@@ -73,6 +73,7 @@ export function SocialHeader() {
                   text-primary-foreground
                   transition-all duration-200
                   ${color} hover:text-white hover:shadow-md
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary
                 `}
               >
                 <Icon className="w-4 h-4" />
@@ -92,6 +93,7 @@ export function SocialHeader() {
                 text-primary-foreground
                 transition-all duration-200
                 hover:bg-white/30 hover:text-white hover:shadow-md
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary
               `}
             >
               <Mail className="w-4 h-4" />
@@ -104,7 +106,7 @@ export function SocialHeader() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="hidden sm:flex items-center gap-1.5 text-sm text-primary-foreground/90 hover:text-primary-foreground transition-colors"
+            className="hidden sm:flex items-center gap-1.5 text-sm text-primary-foreground/90 hover:text-primary-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-full px-2 py-1"
           >
             <Mail className="w-4 h-4" />
             <span className="font-medium">{brandInfo.email}</span>

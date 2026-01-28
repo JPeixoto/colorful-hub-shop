@@ -16,7 +16,7 @@ export function Footer() {
             Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" /> for little dreamers
           </p>
           <p className="text-xs">
-            Â© {new Date().getFullYear()} {brandInfo.name}
+            © {new Date().getFullYear()} {brandInfo.name}
           </p>
         </motion.div>
       </div>

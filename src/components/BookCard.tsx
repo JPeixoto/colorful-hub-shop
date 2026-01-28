@@ -1,5 +1,6 @@
 import { useState, useEffect, useId, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { Share2 } from 'lucide-react';
 import { Book } from '@/types/book';
 import { SmartBookButton } from '@/components/SmartBookButton';
 import { cn } from '@/lib/utils';
@@ -67,6 +68,28 @@ export function BookCard({ book, index }: BookCardProps) {
   const descriptionRef = useRef<HTMLParagraphElement | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
+  const [showCopied, setShowCopied] = useState(false);
+
+  const handleShare = async () => {
+    const shareUrl = `${window.location.origin}/?book=${book.id}`;
+    
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: book.title,
+          text: book.description,
+          url: shareUrl,
+        });
+      } else {
+        await navigator.clipboard.writeText(shareUrl);
+        setShowCopied(true);
+        setTimeout(() => setShowCopied(false), 2000);
+      }
+    } catch (err) {
+      // User cancelled share or copy failed
+      console.log('Share failed:', err);
+    }
+  };
 
   useEffect(() => {
     if (!api) {
@@ -107,8 +130,13 @@ export function BookCard({ book, index }: BookCardProps) {
     return () => window.removeEventListener("resize", checkTruncation);
   }, [book.description, isExpanded]);
 
+  const featureList = book.features.filter((feature) => !/page|p[áa]gina/i.test(feature));
+  const visibleFeatures = featureList.slice(0, 2);
+  const remainingFeatures = featureList.length - visibleFeatures.length;
+
   return (
     <motion.article
+      id={`book-${book.id}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.4) }}
@@ -119,7 +147,7 @@ export function BookCard({ book, index }: BookCardProps) {
         accentBorders[book.accentColor]
       )}
     >
-      <div className="flex h-full flex-col p-4 sm:p-5">
+      <div className="flex h-full flex-col p-4 sm:p-6">
         {/* Cover Image / Slider */}
         <div className="relative mb-2.5 aspect-[3/4] rounded-xl overflow-hidden bg-muted">
           {images.length > 1 ? (
@@ -147,8 +175,9 @@ export function BookCard({ book, index }: BookCardProps) {
                       e.stopPropagation();
                       api?.scrollTo(idx);
                     }}
+                    type="button"
                     className={cn(
-                      "w-1.5 h-1.5 rounded-full transition-all duration-300 shadow-sm focus:outline-none",
+                      "w-1.5 h-1.5 rounded-full transition-all duration-300 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/90",
                       current === idx
                         ? "bg-white w-3"
                         : "bg-white/60 hover:bg-white/90"
@@ -172,18 +201,55 @@ export function BookCard({ book, index }: BookCardProps) {
               {book.badge}
             </span>
           )}
+          
+          {/* Share Button */}
+          <motion.button
+            onClick={handleShare}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="absolute top-2 left-2 bg-white/90 hover:bg-white text-foreground p-2 rounded-full shadow-md z-10 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            aria-label="Share this book"
+            type="button"
+          >
+            <Share2 className="w-4 h-4" />
+          </motion.button>
+          
+          {/* Copied Toast */}
+          {showCopied && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="absolute top-14 left-2 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 rounded-lg shadow-lg z-20"
+            >
+              Link copied!
+            </motion.div>
+          )}
         </div>
 
         {/* Content */}
         <div className="flex flex-1 flex-col space-y-1 sm:space-y-1.5">
           <div className="min-h-[4rem] sm:min-h-[4.5rem]">
-            <h3 className="text-lg font-bold text-foreground leading-snug line-clamp-2">
+            <h3 className="font-display text-lg font-bold text-foreground leading-snug line-clamp-2">
               {book.title}
             </h3>
             {book.subtitle && (
               <p className="text-sm text-muted-foreground font-semibold sm:font-medium line-clamp-1">
                 {book.subtitle}
               </p>
+            )}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-muted-foreground">
+            {book.ageRange && (
+              <span className="rounded-full bg-muted/70 px-2 py-0.5">
+                Ages {book.ageRange}
+              </span>
+            )}
+            {book.pageCount && (
+              <span className="rounded-full bg-muted/70 px-2 py-0.5">
+                {book.pageCount} pages
+              </span>
             )}
           </div>
 
@@ -214,8 +280,8 @@ export function BookCard({ book, index }: BookCardProps) {
           </button>
 
           {/* Features */}
-          <div className="flex flex-wrap gap-1.5">
-            {book.features.slice(0, 3).map((feature) => (
+          <div className="flex flex-wrap items-center gap-1.5">
+            {visibleFeatures.map((feature) => (
               <span
                 key={feature}
                 className={cn(
@@ -226,6 +292,11 @@ export function BookCard({ book, index }: BookCardProps) {
                 {feature}
               </span>
             ))}
+            {remainingFeatures > 0 && (
+              <span className="text-xs font-semibold text-muted-foreground">
+                +{remainingFeatures} more
+              </span>
+            )}
           </div>
 
           {/* CTA */}
