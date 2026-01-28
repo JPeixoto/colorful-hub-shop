@@ -130,8 +130,9 @@ const Index = () => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={shareImage} />
+        <meta property="og:image:secure_url" content={shareImage} />
+        <meta property="og:image:type" content="image/jpeg" />
         <meta property="og:image:alt" content={shareImageAlt} />
-        <meta property="og:logo" content={withSiteUrl("/icon.jpeg")} />
         <meta property="og:site_name" content={brandInfo.name} />
         {selectedBook ? (
           <>
