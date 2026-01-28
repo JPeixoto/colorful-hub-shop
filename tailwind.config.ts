@@ -18,6 +18,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Nunito", "system-ui", "sans-serif"],
+        display: ["Playfair Display", "system-ui", "serif"],
+        body: ["Geist", "Nunito", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -82,6 +84,8 @@ export default {
         soft: "var(--shadow-soft)",
         card: "var(--shadow-card)",
         hover: "var(--shadow-hover)",
+        elevated: "var(--shadow-elevated)",
+        glow: "var(--shadow-glow)",
       },
       keyframes: {
         "accordion-down": {

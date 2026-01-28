@@ -109,14 +109,16 @@ export function BookCard({ book, index }: BookCardProps) {
 
   return (
     <motion.article
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.4) }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: Math.min(index * 0.06, 0.5) }}
+      whileHover={{ y: -8 }}
       className={cn(
         "group relative h-full bg-card rounded-2xl shadow-card overflow-hidden",
-        "border-[3px] border-border/60 hover:shadow-hover transition-all duration-300",
-        "border-l-4",
-        accentBorders[book.accentColor]
+        "border border-border/40 transition-all duration-300",
+        "border-l-4 hover:border-l-8",
+        accentBorders[book.accentColor],
+        "card-elevated card-hover-glow"
       )}
     >
       <div className="flex h-full flex-col p-4 sm:p-5">
@@ -163,7 +165,7 @@ export function BookCard({ book, index }: BookCardProps) {
               src={book.coverImage}
               alt={`${book.title} coloring book cover`}
               eager={index < 4}
-              className="transition-transform duration-500 group-hover:scale-105"
+              className="transition-transform duration-500 group-hover:scale-110"
             />
           )}
 
@@ -175,13 +177,13 @@ export function BookCard({ book, index }: BookCardProps) {
         </div>
 
         {/* Content */}
-        <div className="flex flex-1 flex-col space-y-1 sm:space-y-1.5">
-          <div className="min-h-[4rem] sm:min-h-[4.5rem]">
+        <div className="flex flex-1 flex-col space-y-2 sm:space-y-2.5">
+          <div className="min-h-[3.5rem] sm:min-h-[4rem]">
             <h3 className="text-lg font-bold text-foreground leading-snug line-clamp-2">
               {book.title}
             </h3>
             {book.subtitle && (
-              <p className="text-sm text-muted-foreground font-semibold sm:font-medium line-clamp-1">
+              <p className="text-sm text-muted-foreground font-medium line-clamp-1">
                 {book.subtitle}
               </p>
             )}
@@ -191,45 +193,42 @@ export function BookCard({ book, index }: BookCardProps) {
             id={descriptionId}
             ref={descriptionRef}
             className={cn(
-              "min-h-[5.5rem] sm:min-h-[6.25rem] text-base sm:text-sm text-muted-foreground leading-relaxed",
-              isExpanded ? "line-clamp-none" : "line-clamp-5"
+              "text-sm text-muted-foreground leading-relaxed min-h-[4rem]",
+              isExpanded ? "line-clamp-none" : "line-clamp-3"
             )}
           >
             {book.description}
           </p>
-          <button
-            type="button"
-            onClick={() => setIsExpanded((prev) => !prev)}
-            aria-expanded={isExpanded}
-            aria-controls={descriptionId}
-            aria-hidden={!isTruncated}
-            disabled={!isTruncated}
-            tabIndex={isTruncated ? 0 : -1}
-            className={cn(
-              "self-start text-xs font-semibold text-primary transition-colors",
-              isTruncated ? "hover:text-primary/90" : "invisible"
-            )}
-          >
-            {isExpanded ? "Show less" : "Read more"}
-          </button>
+          {isTruncated && (
+            <button
+              type="button"
+              onClick={() => setIsExpanded((prev) => !prev)}
+              aria-expanded={isExpanded}
+              aria-controls={descriptionId}
+              className="self-start text-xs font-semibold text-primary hover:text-primary/80 transition-colors duration-200"
+            >
+              {isExpanded ? "Show less" : "Read more"}
+            </button>
+          )}
 
           {/* Features */}
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1.5 pt-1">
             {book.features.slice(0, 3).map((feature) => (
-              <span
+              <motion.span
                 key={feature}
+                whileHover={{ scale: 1.05 }}
                 className={cn(
-                  'text-xs font-semibold px-2 py-0.5 rounded-md',
+                  'text-xs font-semibold px-2.5 py-1 rounded-lg transition-all duration-200',
                   accentBadges[book.accentColor]
                 )}
               >
                 {feature}
-              </span>
+              </motion.span>
             ))}
           </div>
 
           {/* CTA */}
-          <div className="pt-2 mt-auto">
+          <div className="pt-3 mt-auto">
             <SmartBookButton
               amazonId={book.amazonId}
               className="w-full"

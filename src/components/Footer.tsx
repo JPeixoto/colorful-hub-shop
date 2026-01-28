@@ -4,20 +4,35 @@ import { brandInfo } from '@/data/books';
 
 export function Footer() {
   return (
-    <footer className="py-6 border-t border-border bg-card/50">
+    <footer className="py-8 sm:py-10 border-t border-border/30 bg-gradient-to-t from-primary/5 to-transparent">
       <div className="container">
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground"
+          transition={{ duration: 0.5 }}
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground"
         >
-          <p className="flex items-center gap-1.5">
-            Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" /> for little dreamers
-          </p>
-          <p className="text-xs">
-            © {new Date().getFullYear()} {brandInfo.name}
-          </p>
+          <motion.p
+            whileHover={{ scale: 1.05 }}
+            className="flex items-center gap-2 font-medium hover:text-foreground transition-colors duration-200"
+          >
+            Made with{' '}
+            <motion.span
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="inline-block"
+            >
+              <Heart className="w-5 h-5 text-red-500 fill-red-500" />
+            </motion.span>{' '}
+            for little dreamers
+          </motion.p>
+          <motion.p
+            className="text-xs font-semibold text-muted-foreground"
+            whileHover={{ scale: 1.05 }}
+          >
+            © {new Date().getFullYear()} {brandInfo.name} • Where Imagination Comes to Life
+          </motion.p>
         </motion.div>
       </div>
     </footer>

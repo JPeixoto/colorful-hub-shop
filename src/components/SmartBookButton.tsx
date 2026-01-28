@@ -5,7 +5,8 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useCountry } from '@/hooks/use-country';
 import { COUNTRIES, CountryCode, Country } from '@/data/countries';
 import { cn } from '@/lib/utils';
@@ -35,69 +36,105 @@ export function SmartBookButton({
     };
 
     return (
-        <div className={cn("flex items-center w-full", className)}>
-            {/* Container with primary border to match the button color */}
-            <div className="flex w-full isolate rounded-md shadow-sm border-2 border-primary overflow-hidden">
-                <Button
-                    variant={variant}
-                    size={size}
-                    asChild
-                    className="relative flex-1 rounded-none border-none focus-visible:z-10 focus-visible:ring-0"
-                >
-                    <a
-                        href={currentLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex justify-center items-center"
-                    >
-                        <span className="mr-2">Get Book</span>
-                        <ExternalLink className="h-4 w-4 opacity-80" />
-                        <span className="sr-only">on Amazon {currentCountry.name}</span>
-                    </a>
-                </Button>
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className={cn("flex items-center w-full gap-2", className)}
+        >
+            {/* Primary Get Book Button - Premium styling */}
+            <motion.a
+                href={currentLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={cn(
+                    "flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg",
+                    "bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-600",
+                    "text-primary-foreground font-semibold text-sm sm:text-base",
+                    "shadow-card hover:shadow-glow transition-all duration-300",
+                    "border border-primary/20 hover:border-primary/40"
+                )}
+            >
+                <span>Get Book</span>
+                <motion.div animate={{ x: [0, 3, 0] }} transition={{ duration: 2, repeat: Infinity }}>
+                    <ExternalLink className="h-4 w-4 opacity-90" />
+                </motion.div>
+                <span className="sr-only">on Amazon {currentCountry.name}</span>
+            </motion.a>
 
-                <DropdownMenu>
+            {/* Country Selector Dropdown */}
+            <DropdownMenu>
+                <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                >
                     <DropdownMenuTrigger asChild>
                         <Button
-                            variant="secondary"
-                            size={size}
+                            variant="outline"
+                            size="icon"
                             className={cn(
-                                "relative rounded-none px-3 min-w-[3.5rem]",
-                                "bg-white hover:bg-gray-50 focus-visible:z-10 focus-visible:ring-inset",
-                                // Valid border left matching the container outline
-                                "border-l-2 border-primary",
-                                "text-foreground p-0 flex items-center justify-center"
+                                "h-11 w-12 rounded-lg flex items-center justify-center",
+                                "border-2 border-primary/30 hover:border-primary/60",
+                                "bg-white/50 hover:bg-white/80 backdrop-blur-sm",
+                                "transition-all duration-300 shadow-card hover:shadow-card",
+                                "group"
                             )}
-                            aria-label={`Select Country (Current: ${currentCountry.name})`}
+                            aria-label={`Select Amazon Store (Current: ${currentCountry.name})`}
                         >
-                            <img
-                                src={currentCountry.flagUrl}
-                                alt={currentCountry.name}
-                                className="w-6 h-auto shadow-sm rounded-sm transition-transform hover:scale-110 object-cover"
-                            />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[200px] max-h-[300px] overflow-y-auto z-50">
-                        {Object.values(COUNTRIES).map((country: Country) => (
-                            <DropdownMenuItem
-                                key={country.code}
-                                onClick={() => handleCountrySelect(country.code)}
-                                className="cursor-pointer gap-3 py-2"
+                            <motion.div
+                                whileHover={{ rotate: 360 }}
+                                transition={{ duration: 0.6 }}
+                                className="flex items-center justify-center"
                             >
                                 <img
-                                    src={country.flagUrl}
-                                    alt={country.name}
-                                    className="w-6 h-auto shadow-sm rounded-sm object-cover"
+                                    src={currentCountry.flagUrl}
+                                    alt={currentCountry.name}
+                                    title={currentCountry.name}
+                                    className="w-6 h-5 shadow-sm rounded object-cover"
                                 />
-                                <span className="font-medium">{country.name}</span>
-                                {countryCode === country.code && (
-                                    <span className="ml-auto flex h-2 w-2 rounded-full bg-primary" />
-                                )}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-        </div>
+                            </motion.div>
+                        </Button>
+                    </DropdownMenuTrigger>
+                </motion.div>
+
+                <DropdownMenuContent align="end" className="w-[220px] max-h-[320px] overflow-y-auto z-50 rounded-xl shadow-elevated">
+                    <div className="px-2 py-2 border-b border-border/20">
+                        <div className="flex items-center gap-2 px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                            <Globe className="w-3 h-3" />
+                            Select Store
+                        </div>
+                    </div>
+
+                    {Object.values(COUNTRIES).map((country: Country) => (
+                        <DropdownMenuItem
+                            key={country.code}
+                            onClick={() => handleCountrySelect(country.code)}
+                            className={cn(
+                                "cursor-pointer gap-3 py-2.5 px-3 my-1 rounded-md transition-all duration-200",
+                                countryCode === country.code
+                                    ? "bg-primary/10 text-primary font-semibold"
+                                    : "hover:bg-muted"
+                            )}
+                        >
+                            <img
+                                src={country.flagUrl}
+                                alt={country.name}
+                                className="w-6 h-5 shadow-sm rounded object-cover"
+                            />
+                            <span className="flex-1">{country.name}</span>
+                            {countryCode === country.code && (
+                                <motion.span
+                                    layoutId="selectedCountry"
+                                    className="flex h-2.5 w-2.5 rounded-full bg-primary"
+                                    transition={{ type: "spring", bounce: 0.4 }}
+                                />
+                            )}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </motion.div>
     );
 }

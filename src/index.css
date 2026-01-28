@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Geist:wght@400;500;600;700&display=swap');
 @import "@fontsource/nunito/400.css";
 @import "@fontsource/nunito/600.css";
 @import "@fontsource/nunito/700.css";
@@ -14,6 +15,11 @@
 @layer base {
   html {
     color-scheme: light;
+  }
+
+  /* Typography System - Premium Editorial */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
   }
 
   :root {
@@ -62,18 +68,21 @@
     --sunshine: 45 95% 75%;
     --blush: 350 60% 88%;
 
-    /* Gradients */
-    --gradient-hero: linear-gradient(160deg, hsl(40 33% 97%) 0%, hsl(25 80% 92%) 30%, hsl(280 45% 94%) 60%, hsl(165 45% 94%) 100%);
+    /* Gradients - Enhanced for premium aesthetic */
+    --gradient-hero: linear-gradient(160deg, hsl(40 33% 97%) 0%, hsl(25 80% 92%) 25%, hsl(280 48% 94%) 55%, hsl(165 45% 93%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(40 45% 99%) 0%, hsl(30 35% 95%) 100%);
     --gradient-cta: linear-gradient(135deg, hsl(16 90% 55%) 0%, hsl(30 95% 58%) 100%);
     --gradient-section: linear-gradient(180deg, hsl(40 33% 97%) 0%, hsl(25 60% 95%) 50%, hsl(280 40% 96%) 100%);
     --gradient-header: linear-gradient(180deg, hsl(25 85% 55%) 0%, hsl(16 90% 50%) 100%);
+    --gradient-text-primary: linear-gradient(135deg, hsl(16 85% 50%) 0%, hsl(280 40% 45%) 100%);
 
-    /* Shadows */
+    /* Shadows - Elevated premium system */
     --shadow-soft: 0 4px 20px -4px hsl(25 30% 20% / 0.12);
     --shadow-card: 0 8px 35px -8px hsl(25 30% 20% / 0.18);
     --shadow-hover: 0 16px 50px -10px hsl(16 85% 50% / 0.25);
     --shadow-header: 0 4px 20px -2px hsl(16 85% 40% / 0.3);
+    --shadow-elevated: 0 20px 60px -12px hsl(25 30% 20% / 0.22);
+    --shadow-glow: 0 8px 40px -8px hsl(16 85% 50% / 0.35);
 
     /* Sidebar (keeping defaults) */
     --sidebar-background: 40 33% 97%;
@@ -132,6 +141,8 @@
     --shadow-card: 0 8px 35px -8px hsl(25 30% 20% / 0.18);
     --shadow-hover: 0 16px 50px -10px hsl(16 85% 50% / 0.25);
     --shadow-header: 0 4px 20px -2px hsl(16 85% 40% / 0.3);
+    --shadow-elevated: 0 20px 60px -12px hsl(25 30% 20% / 0.22);
+    --shadow-glow: 0 8px 40px -8px hsl(16 85% 50% / 0.35);
 
     --sidebar-background: 40 33% 97%;
     --sidebar-foreground: 25 30% 20%;
@@ -141,6 +152,26 @@
     --sidebar-accent-foreground: 165 40% 25%;
     --sidebar-border: 30 30% 88%;
     --sidebar-ring: 16 85% 60%;
+  }
+}
+
+/* Gradient text utility for headlines */
+@layer components {
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-500 to-pink-500;
+  }
+
+  .text-gradient-accent {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-lavender to-sky;
+  }
+
+  /* Elevated card styles */
+  .card-elevated {
+    @apply rounded-2xl shadow-card transition-all duration-300 hover:shadow-elevated hover:-translate-y-1;
+  }
+
+  .card-hover-glow {
+    @apply transition-all duration-300 hover:shadow-glow;
   }
 }
 

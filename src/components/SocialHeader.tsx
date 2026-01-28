@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Instagram, Facebook, Mail } from 'lucide-react';
 import { brandInfo } from '@/data/books';
+import { cn } from '@/lib/utils';
 
 function PinterestIcon({ className }: { className?: string }) {
   return (
@@ -38,23 +39,23 @@ export function SocialHeader() {
     <motion.header
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="sticky top-0 z-50 bg-gradient-to-r from-primary to-[hsl(30_90%_55%)] shadow-lg"
+      className="sticky top-0 z-50 bg-gradient-to-r from-primary to-[hsl(30_90%_55%)] backdrop-blur-xl bg-opacity-95 shadow-header border-b border-white/10"
     >
-      <div className="container py-2.5">
+      <div className="container py-3.5 sm:py-4">
         <div className="flex items-center justify-between gap-4">
           {/* Brand */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="flex items-center gap-2"
+            className="flex items-center gap-3 flex-shrink-0"
           >
-            <img src="/icon.jpeg" alt="Coloring Fun Books" className="w-8 h-8 rounded-full object-cover" />
-            <span className="font-extrabold text-base text-primary-foreground">{brandInfo.name}</span>
+            <img src="/icon.jpeg" alt="Coloring Fun Books" className="w-9 h-9 rounded-full object-cover shadow-md border border-white/20" />
+            <span className="font-display font-bold text-base sm:text-lg text-primary-foreground hidden sm:inline">{brandInfo.name}</span>
           </motion.div>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-2">
+          {/* Social Links & Email */}
+          <div className="flex items-center gap-3 sm:gap-4">
             {socialLinks.map(({ icon: Icon, href, label, color }, index) => (
               <motion.a
                 key={label}
@@ -64,51 +65,47 @@ export function SocialHeader() {
                 aria-label={`Follow us on ${label}`}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.15 + index * 0.05 }}
-                whileHover={{ scale: 1.1 }}
+                transition={{ delay: 0.15 + index * 0.06 }}
+                whileHover={{ scale: 1.15, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className={`
-                  flex items-center justify-center w-9 h-9 rounded-full
-                  bg-white/20 backdrop-blur-sm
-                  text-primary-foreground
-                  transition-all duration-200
-                  ${color} hover:text-white hover:shadow-md
-                `}
+                className={cn(
+                  "flex items-center justify-center w-10 h-10 rounded-full",
+                  "bg-white/15 backdrop-blur-sm",
+                  "text-primary-foreground transition-all duration-300",
+                  "hover:bg-white/30 hover:shadow-lg",
+                  color
+                )}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-5 h-5" />
               </motion.a>
             ))}
+            
+            {/* Email icon - mobile only */}
             <motion.a
               href={`mailto:${brandInfo.email}`}
               aria-label="Email us"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.15 + socialLinks.length * 0.05 }}
-              whileHover={{ scale: 1.1 }}
+              transition={{ delay: 0.15 + socialLinks.length * 0.06 }}
+              whileHover={{ scale: 1.15, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className={`
-                sm:hidden flex items-center justify-center w-9 h-9 rounded-full
-                bg-white/20 backdrop-blur-sm
-                text-primary-foreground
-                transition-all duration-200
-                hover:bg-white/30 hover:text-white hover:shadow-md
-              `}
+              className="sm:hidden flex items-center justify-center w-10 h-10 rounded-full bg-white/15 backdrop-blur-sm text-primary-foreground hover:bg-white/30 transition-all duration-300"
+            >
+              <Mail className="w-5 h-5" />
+            </motion.a>
+
+            {/* Email text - desktop only */}
+            <motion.a
+              href={`mailto:${brandInfo.email}`}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+              className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-primary-foreground/90 hover:text-primary-foreground bg-white/10 hover:bg-white/20 transition-all duration-300"
             >
               <Mail className="w-4 h-4" />
+              <span>{brandInfo.email}</span>
             </motion.a>
           </div>
-
-          {/* Email - compact on mobile */}
-          <motion.a
-            href={`mailto:${brandInfo.email}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="hidden sm:flex items-center gap-1.5 text-sm text-primary-foreground/90 hover:text-primary-foreground transition-colors"
-          >
-            <Mail className="w-4 h-4" />
-            <span className="font-medium">{brandInfo.email}</span>
-          </motion.a>
         </div>
       </div>
     </motion.header>

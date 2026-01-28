@@ -16,35 +16,48 @@ export function BookGrid() {
   });
 
   return (
-    <section className="py-8 sm:py-12 bg-[image:var(--gradient-section)]">
+    <section className="py-12 sm:py-16 lg:py-20 bg-[image:var(--gradient-section)]">
       <div className="container">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4"
+          transition={{ duration: 0.5 }}
+          className="mb-10 sm:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
-          <div className="text-left">
-            <div className="inline-flex items-center gap-2 text-primary mb-2">
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-left"
+          >
+            <div className="inline-flex items-center gap-2 text-primary mb-3">
               <Palette className="w-5 h-5" />
-              <span className="text-sm font-bold uppercase tracking-wide">Our Collection</span>
+              <span className="text-xs sm:text-sm font-bold uppercase tracking-widest">Our Collection</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground">
               Coloring Books
             </h2>
-          </div>
+            <p className="text-muted-foreground mt-2 text-sm sm:text-base">
+              {filteredBooks.length} book{filteredBooks.length !== 1 ? 's' : ''} available
+            </p>
+          </motion.div>
 
-          {/* Filter Controls */}
-          <div>
-            <div className="inline-flex p-1 bg-white/50 backdrop-blur-sm rounded-full border border-white/20 shadow-sm">
+          {/* Filter Controls - Refined */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <div className="inline-flex p-1.5 bg-white/50 backdrop-blur-md rounded-full border border-white/20 shadow-card hover:shadow-elevated transition-all duration-300">
               {['All', 'English', 'Portuguese'].map((f) => (
                 <button
                   key={f}
                   onClick={() => setFilter(f as any)}
                   className={cn(
-                    "px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 relative",
+                    "px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 relative",
                     filter === f
-                      ? "text-primary hover:text-primary z-10 font-bold"
+                      ? "text-primary z-10 font-bold"
                       : "text-muted-foreground hover:text-foreground hover:bg-white/30"
                   )}
                 >
@@ -52,41 +65,44 @@ export function BookGrid() {
                     <motion.div
                       layoutId="activeFilter"
                       className="absolute inset-0 bg-white rounded-full shadow-sm -z-10"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
                     />
                   )}
                   {f}
                 </button>
               ))}
             </div>
-          </div>
+          </motion.div>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          <AnimatePresence mode="wait">
+        {/* Grid with staggered animations */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6 lg:gap-7">
+          <AnimatePresence mode="sync">
             {filteredBooks.map((book, index) => (
               <motion.div
                 key={book.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
               >
-                {/* Reset index prop to avoidance staggered animation delay interfering with filtering animations if needed, 
-                    or keep it for initial load. Keeping it for now. */}
                 <BookCard book={book} index={index} />
               </motion.div>
             ))}
           </AnimatePresence>
         </div>
 
+        {/* Empty state */}
         {filteredBooks.length === 0 && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-12 text-muted-foreground"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-20"
           >
-            No books found for this category.
+            <Palette className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-40" />
+            <p className="text-lg text-muted-foreground font-medium">
+              No books found for this category.
+            </p>
           </motion.div>
         )}
       </div>
