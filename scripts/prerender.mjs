@@ -1,13 +1,24 @@
 import path from "node:path";
 import { mkdir, writeFile, readFile } from "node:fs/promises";
-import Prerenderer from "@prerenderer/prerenderer";
-import PuppeteerRenderer from "@prerenderer/renderer-puppeteer";
 
 const distDir = path.resolve(process.cwd(), "dist");
+
+// Check if we're running on Vercel or CI
+const isVercel = process.env.VERCEL || process.env.CI;
+
+if (isVercel) {
+  console.log("⚠️  Skipping prerendering on Vercel (using static meta tags instead)");
+  console.log("✓ Build will succeed with client-side rendering + static OG tags");
+  process.exit(0);
+}
 
 // Import book data to generate routes for each book
 const booksFile = await readFile(path.resolve(process.cwd(), "src/data/books.ts"), "utf-8");
 const bookIds = [...booksFile.matchAll(/id:\s*'([^']+)'/g)].map(m => m[1]);
+
+// Dynamic import to avoid loading puppeteer on Vercel
+const { default: Prerenderer } = await import("@prerenderer/prerenderer");
+const { default: PuppeteerRenderer } = await import("@prerenderer/renderer-puppeteer");
 
 const prerenderer = new Prerenderer({
   staticDir: distDir,
