@@ -133,7 +133,12 @@ const Index = () => {
         <meta property="og:image:alt" content={shareImageAlt} />
         <meta property="og:logo" content={withSiteUrl("/icon.jpeg")} />
         <meta property="og:site_name" content={brandInfo.name} />
-        {!selectedBook && (
+        {selectedBook ? (
+          <>
+            <meta property="og:image:width" content="800" />
+            <meta property="og:image:height" content="1067" />
+          </>
+        ) : (
           <>
             <meta property="og:image:width" content="1024" />
             <meta property="og:image:height" content="1024" />
