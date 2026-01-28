@@ -6,14 +6,19 @@
     "framework": "vite",
     "rewrites": [
         {
+            "source": "/book/:bookId",
+            "destination": "/book/:bookId/index.html"
+        },
+        {
             "source": "/",
             "has": [
                 {
                     "type": "query",
-                    "key": "book"
+                    "key": "book",
+                    "value": "(?<bookId>.*)"
                 }
             ],
-            "destination": "/index.html"
+            "destination": "/book/:bookId"
         }
     ]
 }
